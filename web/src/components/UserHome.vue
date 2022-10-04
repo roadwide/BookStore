@@ -1,7 +1,9 @@
 <template>
+<div>
   <h1>UserHome</h1>
   <h1 v-show="username.length !== 0">用户名：{{ username }}</h1>
   <el-button @click="logout" type="danger">注销</el-button>
+</div>
 </template>
 
 <script lang="ts">
