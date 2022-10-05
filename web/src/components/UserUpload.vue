@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 <template>
+<div>
   <el-upload
     ref="upload"
     class="upload-demo"
@@ -44,6 +45,7 @@
       <el-button type="primary" @click="submitForm(booInfoFormRef)">新增</el-button>
     </el-form-item>
   </el-form>
+</div>
 </template>
 
 <script setup lang="ts">

@@ -6,20 +6,47 @@
       <li><router-link to="/upload">Upload</router-link></li>
       <li><router-link to="/books">Books</router-link></li>
       <!-- 下面两个float:right 根据代码的顺序 从右往左排列，也即最右边是register -->
-      <li style="float:right"><router-link to="/register" class="active">Register</router-link></li>
-      <li style="float:right"><router-link to="/login">Login</router-link></li>
+      <li style="float:right" v-show="!isLogin"><router-link to="/register" class="active">Register</router-link></li>
+      <li style="float:right" v-show="!isLogin"><router-link to="/login">Login</router-link></li>
+      <!-- a标签没有href属性，指针悬浮在上面的时候不显示手指图标 -->
+      <li @click="logout" style="float:right" v-show="isLogin"><a href="#">注销</a></li>
 
     </ul>
   </nav>
   <el-row align="middle" type="flex">
 
     <el-col :span="8" :offset="8">
-      <router-view/>
+        <router-view 
+        :isLogin = "isLogin"
+        @changeLoginStatus = "changeLoginStatus"></router-view>
     </el-col>
 
   </el-row>
 </div>
 </template>
+
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { ref } from 'vue'
+var isLogin = ref(false)
+if (localStorage.getItem("userInfo") !== null) {
+  isLogin.value = true
+}
+const router = useRouter()
+
+
+function logout() {
+    alert("注销！跳转登录页面")
+    changeLoginStatus(false)
+    localStorage.removeItem("userInfo")
+    router.push("login")
+}
+
+function changeLoginStatus(val:boolean) {
+  isLogin.value = val
+}
+
+</script>
 
 <style scoped>
 ul {
