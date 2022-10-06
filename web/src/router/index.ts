@@ -1,6 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import IndexView from '../views/IndexView.vue'
-import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import UploadView from '../views/UploadView.vue'
@@ -11,11 +10,6 @@ const routes: Array<RouteRecordRaw> = [
     path: '/',
     name: 'index',    //name是path的简写，或者说另一个名字，有通过name的跳转
     component: IndexView
-  },
-  {
-    path: '/home',
-    name: 'home',
-    component: HomeView
   },
   {
     path: '/login',
@@ -47,7 +41,7 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
   let isAuthenticated = true
   let needLogin = false
-  if (to.name !== 'register') {
+  if (to.name !== 'register' && to.name !== 'books') {
     needLogin =true
   }
   if (localStorage.getItem("userInfo") === null) {
