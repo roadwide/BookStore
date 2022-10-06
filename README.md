@@ -4,8 +4,7 @@ Test git branch
 https://segmentfault.com/a/1190000019714354
 
 TODO:  
-把所有登录状态判断写到App.vue中，其余组件都使用props传递的参数来判断是否登录  
-把UserHome.vue 的 if (localStorage.getItem("userInfo") === null) 转移到App.vue中  
-
-删掉UserHome这个组件，因为这个组件目前只用来显示用户名。  
-将用户名显示在右上角
+books页面一行展示的内容太少了，似乎跟el-col的布局设置有关，好像是24列，根据窗口大小自适应占了8列。  
+这对登录的输入框在全屏状态下，看起来还行；但是对books页面，以及缩小窗口后的登录框，看起来就很难看  
+  
+各个页面的内容距离导航栏太近了

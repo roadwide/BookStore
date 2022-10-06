@@ -28,11 +28,11 @@ import axios from 'axios'
 import { reactive, ref, defineEmits, defineProps } from 'vue'
 import { FormInstance } from 'element-plus'
 import { useRouter } from 'vue-router'
-const emit = defineEmits(['changeLoginStatus'])
+const emit = defineEmits(['changeLoginStatus', 'changeUserName'])
 const props = defineProps({isLogin: Boolean})
 const router = useRouter()
-if (!props.isLogin) {
-  router.push("home")
+if (props.isLogin) {
+  router.push("books")
 }
 
 const ruleFormRef = ref<FormInstance>()
@@ -64,8 +64,9 @@ const submitForm = (formEl: FormInstance | undefined) => {
           if (response.data.message === "ok") {
               alert("登录成功！跳转到个人主页")
               emit("changeLoginStatus", true)
+              emit("changeUserName", ruleForm.username)
               localStorage.setItem("userInfo", JSON.stringify(response.data))
-              router.push("home")
+              router.push("books")
           } else {
             alert("登录失败！请检查输入")
           }

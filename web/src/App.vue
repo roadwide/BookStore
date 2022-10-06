@@ -2,14 +2,14 @@
 <div>
   <nav>
     <ul>
-      <li><router-link to="/home">Home</router-link></li>
-      <li><router-link to="/upload">Upload</router-link></li>
       <li><router-link to="/books">Books</router-link></li>
+      <li v-show="isLogin"><router-link to="/upload">Upload</router-link></li>
       <!-- 下面两个float:right 根据代码的顺序 从右往左排列，也即最右边是register -->
       <li style="float:right" v-show="!isLogin"><router-link to="/register" class="active">Register</router-link></li>
       <li style="float:right" v-show="!isLogin"><router-link to="/login">Login</router-link></li>
       <!-- a标签没有href属性，指针悬浮在上面的时候不显示手指图标 -->
       <li @click="logout" style="float:right" v-show="isLogin"><a href="#">注销</a></li>
+      <li style="float:right" v-show="isLogin"><a>您好，{{ username }}</a></li>
 
     </ul>
   </nav>
@@ -18,6 +18,7 @@
     <el-col :span="8" :offset="8">
         <router-view 
         :isLogin = "isLogin"
+        @changeUserName = "changeUserName"
         @changeLoginStatus = "changeLoginStatus"></router-view>
     </el-col>
 
@@ -26,6 +27,7 @@
 </template>
 
 <script setup lang="ts">
+import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 var isLogin = ref(false)
@@ -34,6 +36,32 @@ if (localStorage.getItem("userInfo") !== null) {
 }
 const router = useRouter()
 
+
+let username = ref("default username")
+if (!isLogin.value) {
+  // TODO：这里应该判断当前页面是不是login，如果不是再跳转。虽然目前这样也没什么问题
+    router.push("login")
+} else {
+    const usesrInfo = JSON.parse(localStorage.getItem("userInfo")!)    // 非空断言，叹号
+    let formData = new FormData()
+    formData.append('userID', usesrInfo.userID)
+    formData.append('token', usesrInfo.token)
+    const url = 'http://localhost:8081/token'
+    axios.post(url, formData).then(
+        function(response) {
+            if (response.data.message !== "ok") {
+                console.log(response.data)
+            } else {
+                username.value = response.data.userID
+            }
+            
+        }
+    ).catch(
+        function(err) {
+            console.log(err.message)
+        }
+    )
+}
 
 function logout() {
     alert("注销！跳转登录页面")
@@ -44,6 +72,10 @@ function logout() {
 
 function changeLoginStatus(val:boolean) {
   isLogin.value = val
+}
+
+function changeUserName(val:string) {
+  username.value = val
 }
 
 </script>
@@ -87,7 +119,7 @@ li a:hover:not(.active) {
 
 /* class 向当前链接添加 "active" 类，这样用户就知道他/她在哪个页面上： */
 /* li a.active表示 <li>标签里的<a>标签的class="active"才有效，不在li中的a标签无效 */
-  li a.active {    
+li a.active {    
   color: white;
   background-color: #4CAF50;
 }
