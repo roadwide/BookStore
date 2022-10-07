@@ -1,10 +1,17 @@
 <template>
-<div class="row">
-        <!-- 展示用户列表 -->
-        <div v-show="bookInfo.length" class="card" v-for="book in bookInfo" :key="book.OrderId">
-			<img :src="book.PicURL" style="width: 100px" />
-            <p class="card-text">{{book.BookName}}</p> 
-        </div>
+<!-- 
+	div的子元素，也就是class="card"设置了float:left，浮动，会导致父div的高度为零
+	好像是子元素浮动到父元素头上了，然后父元素不能自动包裹子元素，导致父div高度为0
+	overflow:hidden 可以解决上面的问题
+-->
+<div style="max-width:720px;overflow:hidden;">
+	<div v-show="bookInfo.length" class="card" v-for="book in bookInfo" :key="book.OrderId">
+		<img :src="book.PicURL"/>
+		<!-- TODO：这里文字长度超了会导致布局歪掉 -->
+		<p class="card-text">书名:{{book.BookName}}</p> 
+		<p class="card-text">价格:{{book.BookPrice}}</p> 
+		<p class="card-text">用户:{{book.UserId}}</p> 
+	</div>
 </div>
 </template>
 
@@ -18,6 +25,7 @@ axios.get(url).then(
 function(response) {
 	if (response.data.message === "ok") {
 		for(let oneBookData of response.data.data) {    // of是内容，in是索引
+			//oneBookData长这样 {OrderId: '20221007160940895414', UserId: '123', BookName: 'test4', BookPrice: 1, PicURL: 'http://127.0.0.1:8081/img/20221007160940895414.png'}
 			bookInfo.push(oneBookData)
 		}
 	} else {
@@ -33,16 +41,21 @@ function(err) {
 <style scoped>
 	.card {
 		float: left;
-		width: 33.333%;
-		padding: .75rem;
-		margin-bottom: 2rem;
+		/* 
+			每个元素宽100px，border 1px，padding 4px
+			每一行放6个就是(100+1*2+4*2) * 6=720
+		*/
+		width: 110px;
 		border: 1px solid #efefef;
+		padding: 4px;
+		margin-bottom: 2rem;
 		text-align: center;
 	}
 
 	.card > img {
 		margin-bottom: .75rem;
-		border-radius: 100px;
+		width: 100px;
+		height: 100px;
 	}
 
 	.card-text {
