@@ -8,21 +8,17 @@
       <li style="float:right" v-show="!isLogin"><router-link to="/register" class="active">Register</router-link></li>
       <li style="float:right" v-show="!isLogin"><router-link to="/login">Login</router-link></li>
       <!-- a标签没有href属性，指针悬浮在上面的时候不显示手指图标 -->
-      <li @click="logout" style="float:right" v-show="isLogin"><a href="#">注销</a></li>
+      <li @click="logout" style="float:right;border-right: none;" v-show="isLogin"><a href="#">注销</a></li>
       <li style="float:right" v-show="isLogin"><a>您好，{{ username }}</a></li>
 
     </ul>
   </nav>
-  <el-row align="middle" type="flex">
-
-    <el-col :span="8" :offset="8">
-        <router-view 
-        :isLogin = "isLogin"
-        @changeUserName = "changeUserName"
-        @changeLoginStatus = "changeLoginStatus"></router-view>
-    </el-col>
-
-  </el-row>
+    <router-view 
+      :isLogin = "isLogin"
+      @changeUserName = "changeUserName"
+      @changeLoginStatus = "changeLoginStatus"
+      style="margin: 50px auto;">
+    </router-view>
 </div>
 </template>
 
@@ -40,7 +36,7 @@ const router = useRouter()
 let username = ref("default username")
 if (!isLogin.value) {
   // TODO：这里应该判断当前页面是不是login，如果不是再跳转。虽然目前这样也没什么问题
-    router.push("login")
+    router.push("books")
 } else {
     const usesrInfo = JSON.parse(localStorage.getItem("userInfo")!)    // 非空断言，叹号
     let formData = new FormData()

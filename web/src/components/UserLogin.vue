@@ -6,6 +6,7 @@
     :rules="rules"
     label-width="120px"
     class="demo-ruleForm"
+    style="max-width:400px;"
   >
     <el-form-item label="用户名" prop="username">
       <el-input v-model="ruleForm.username" type="text" autocomplete="off" />

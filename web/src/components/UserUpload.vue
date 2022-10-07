@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 <template>
-<div>
+<div style="max-width:400px;">
   <el-upload
     ref="upload"
     class="upload-demo"
@@ -29,6 +29,7 @@
     status-icon
     label-width="120px"
     class="demo-ruleForm"
+    style="max-width:400px;"
   >
     <el-form-item label="书名" prop="bookName">
       <el-input v-model="bookInfo.bookName" type="text" />
