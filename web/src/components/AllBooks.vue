@@ -7,7 +7,14 @@
 <div style="max-width:720px;overflow:hidden;">
 	<div v-show="bookInfo.length" class="card" v-for="book in bookInfo" :key="book.OrderId">
 		<img :src="book.PicURL"/>
-		<!-- TODO：这里文字长度超了会导致布局歪掉 -->
+		<!-- 
+		这里文字长度超了会导致布局歪掉，使用text-overflow: ellipsis;使得超出的字符显示为省略号
+		/* BOTH of the following are required for text-overflow */
+		white-space: nowrap;
+		overflow: hidden;
+		https://zhuanlan.zhihu.com/p/105511800
+		https://codepen.io/catherineliyuankun/pen/gjzLav
+		-->
 		<p class="card-text">书名:{{book.BookName}}</p> 
 		<p class="card-text">价格:{{book.BookPrice}}</p> 
 		<p class="card-text">用户:{{book.UserId}}</p> 
@@ -60,5 +67,8 @@ function(err) {
 
 	.card-text {
 		font-size: 85%;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 </style>
