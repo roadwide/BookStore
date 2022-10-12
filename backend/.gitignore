@@ -56,3 +56,5 @@ ent/*
 
 # don't upload local img
 img/*
+
+*.s3db
