@@ -1,12 +1,11 @@
 <template>
-  <h1>All Books</h1>
-  <div class="row">
+<div class="row">
         <!-- 展示用户列表 -->
         <div v-show="bookInfo.length" class="card" v-for="book in bookInfo" :key="book.OrderId">
 			<img :src="book.PicURL" style="width: 100px" />
             <p class="card-text">{{book.BookName}}</p> 
         </div>
-	</div>
+</div>
 </template>
 
 <script setup lang="ts">

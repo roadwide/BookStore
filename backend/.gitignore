@@ -53,3 +53,5 @@ fabric.properties
 ent/*
 !ent/schema/
 !ent/generate.go
+
+*.s3db
