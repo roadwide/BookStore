@@ -38,19 +38,20 @@ if (!isLogin.value) {
   // TODO：这里应该判断当前页面是不是login，如果不是再跳转。虽然目前这样也没什么问题
     router.push("books")
 } else {
-    const usesrInfo = JSON.parse(localStorage.getItem("userInfo")!)    // 非空断言，叹号
+    const userInfo = JSON.parse(localStorage.getItem("userInfo")!)    // 非空断言，叹号
     let formData = new FormData()
-    formData.append('userID', usesrInfo.userID)
-    formData.append('token', usesrInfo.token)
-    const url = 'http://localhost:8081/token'
+    formData.append("token", userInfo.token)
+    console.log(formData)
+    const url = 'http://localhost:8081/user/verify'
     axios.post(url, formData).then(
         function(response) {
-            if (response.data.message !== "ok") {
-                console.log(response.data)
-            } else {
-                username.value = response.data.userID
-            }
-            
+          
+          console.log(response)
+          if (response.data.code === 0 && response.data.resp.user_id === userInfo.username) {
+            username.value = userInfo.username
+          } else {
+            console.log(response.data)
+          }
         }
     ).catch(
         function(err) {

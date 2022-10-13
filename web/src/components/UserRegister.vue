@@ -84,11 +84,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       console.log('submit!')
-      let formData = new FormData()
-      formData.append('username', ruleForm.username)
-      formData.append('password', ruleForm.pass)
-      formData.append('email', ruleForm.email)
-      const url = 'http://localhost:8081/register'
+      let formData = {
+        'username': ruleForm.username,
+        'password': ruleForm.pass,
+        'email': ruleForm.email
+      }
+      const url = 'http://localhost:8081/user/register'
       axios.post(url, formData).then(
         function(response){
           console.log(response.data)

@@ -2,8 +2,9 @@ package controllers
 
 import (
 	"backend/pkg/utils"
-	"github.com/labstack/echo/v4"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
 func Authorize(c echo.Context) (string, error) {
