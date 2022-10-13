@@ -7,6 +7,12 @@
 go generate ./ent
 ```
 
+**Environment Variables**
+```bash
+export SQLITE_FILE=data.s3db
+export JWT_SECRET_KEY=MxDNSc0AnSSoU7WUUWh9i
+```
+
 **Build and Serve**
 
 ```bash

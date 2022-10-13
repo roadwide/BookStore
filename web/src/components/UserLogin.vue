@@ -55,18 +55,19 @@ const submitForm = (formEl: FormInstance | undefined) => {
   formEl.validate((valid) => {
     if (valid) {
       console.log('submit!')
-      let formData = new FormData()
-      formData.append('username', ruleForm.username)
-      formData.append('password', ruleForm.pass)
-      const url = 'http://localhost:8081/login'
+      let formData = {
+        'username': ruleForm.username,
+        'password': ruleForm.pass
+      }
+      const url = 'http://localhost:8081/user/login'
       axios.post(url, formData).then(
         function(response) {
           console.log(response.data)
-          if (response.data.message === "ok") {
+          if (response.data.code === 0) {
               alert("登录成功！跳转到个人主页")
               emit("changeLoginStatus", true)
               emit("changeUserName", ruleForm.username)
-              localStorage.setItem("userInfo", JSON.stringify(response.data))
+              localStorage.setItem("userInfo", JSON.stringify(response.data.resp))
               router.push("books")
           } else {
             alert("登录失败！请检查输入")

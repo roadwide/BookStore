@@ -4,8 +4,9 @@ import (
 	"backend/app/models"
 	"backend/app/queries"
 	"backend/pkg/utils"
-	"github.com/labstack/echo/v4"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
 func AddBook(c echo.Context) error {
@@ -30,12 +31,8 @@ func AddBook(c echo.Context) error {
 }
 
 func GetBook(c echo.Context) error {
-	_, err := Authorize(c)
-	if err != nil {
-		return c.JSON(http.StatusUnauthorized, utils.FailResponse(err.Error(), nil))
-	}
 	req := &models.GetBookRequest{}
-	err = c.Bind(req)
+	err := c.Bind(req)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, utils.FailResponse(err.Error(), nil))
 	}

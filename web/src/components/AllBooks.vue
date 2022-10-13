@@ -26,12 +26,12 @@
 import { reactive } from 'vue'
 import axios from 'axios'
 
-const url = 'http://localhost:8081/getAllBookInfo'
+const url = 'http://localhost:8081/book/info'
 let bookInfo = reactive<any>([])
 axios.get(url).then(
 function(response) {
-	if (response.data.message === "ok") {
-		for(let oneBookData of response.data.data) {    // of是内容，in是索引
+	if (response.data.code === 0) {
+		for(let oneBookData of response.data.resp) {    // of是内容，in是索引
 			//oneBookData长这样 {OrderId: '20221007160940895414', UserId: '123', BookName: 'test4', BookPrice: 1, PicURL: 'http://127.0.0.1:8081/img/20221007160940895414.png'}
 			bookInfo.push(oneBookData)
 		}

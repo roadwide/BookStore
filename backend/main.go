@@ -2,6 +2,7 @@ package main
 
 import (
 	"backend/pkg/routes"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -17,5 +18,5 @@ func main() {
 	routes.GeneralRoutes(app)
 	routes.StaticRoutes(app)
 
-	app.Logger.Fatal(app.Start(":80"))
+	app.Logger.Fatal(app.Start(":8081"))
 }
