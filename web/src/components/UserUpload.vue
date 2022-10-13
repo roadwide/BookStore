@@ -1,28 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 <template>
 <div style="max-width:400px;">
-  <el-upload
-    ref="upload"
-    class="upload-demo"
-    action="http://127.0.0.1:8081/upload"
-    :limit="1"
-    :on-exceed="handleExceed"
-    :auto-upload="false"
-    :on-success="handleSuccess"
-  >
-    <template #trigger>
-      <el-button type="primary">select file</el-button>
-    </template>
-    <el-button class="ml-3" type="success" @click="submitUpload">
-      upload to server
-    </el-button>
-    <template #tip>
-      <div class="el-upload__tip text-red">
-        limit 1 file, new file will cover the old file
-      </div>
-    </template>
-  </el-upload>
-
   <el-form
     ref="booInfoFormRef"
     :model="bookInfo"
@@ -31,6 +9,31 @@
     class="demo-ruleForm"
     style="max-width:400px;"
   >
+    <el-form-item label="上传文件" prop="file">
+      <!-- name是上传的文件字段名，也就是后端接收的form索引的key，默认是file -->
+      <el-upload
+        ref="upload"
+        class="upload-demo"
+        action="http://127.0.0.1:8081/book/upload"
+        :limit="1"
+        :on-exceed="handleExceed"
+        :auto-upload="false"
+        :on-success="handleSuccess"
+        name="file"
+      >
+        <template #trigger>
+          <el-button type="primary">select file</el-button>
+        </template>
+        <el-button class="ml-3" type="success" @click="submitUpload">
+          upload to server
+        </el-button>
+        <template #tip>
+          <div class="el-upload__tip text-red">
+            limit 1 file, new file will cover the old file
+          </div>
+        </template>
+      </el-upload>
+    </el-form-item>
     <el-form-item label="书名" prop="bookName">
       <el-input v-model="bookInfo.bookName" type="text" />
     </el-form-item>
@@ -58,14 +61,12 @@ import axios from 'axios'
 const upload = ref<UploadInstance>()
 const booInfoFormRef = ref<FormInstance>()
 const bookInfo = reactive({
-  orderID: '',
   userID: '',
   bookName: '',
   bookPrice: '',
   picURL: ''
 })
 const usesrInfo = JSON.parse(localStorage.getItem("userInfo")!)    // 非空断言，叹号
-bookInfo.userID = usesrInfo.userID
 
 const handleExceed: UploadProps['onExceed'] = (files) => {
   upload.value!.clearFiles()    // 这里的非空断言在项目根目录下的.eslintrc.js的rules中关掉，"@typescript-eslint/no-non-null-assertion": "off"
@@ -84,9 +85,8 @@ const submitUpload = () => {
 
 // 文件上传成功时的钩子
 const handleSuccess = (res: any) => {
-  bookInfo.picURL = res.picURL
-  bookInfo.orderID = res.uuid
-  console.log(res)    // res即文件上传成功后的服务器返回值
+  // res即文件上传成功后的服务器返回值
+  bookInfo.picURL = res.resp.PicURL
 }
 
 // 提交输入的信息到服务器
@@ -94,20 +94,18 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     // 检查是否已经完成图片的上传
-    if (valid && bookInfo.orderID !== "") {
-      console.log('submit!')
-      let formData = new FormData()
-      formData.append('orderId', bookInfo.orderID)
-      formData.append('userId', bookInfo.userID)
-      formData.append('bookName', bookInfo.bookName)
-      formData.append('bookPrice', bookInfo.bookPrice)
-      formData.append('picURL', bookInfo.picURL)
-      const url = 'http://localhost:8081/addBook'
-      axios.post(url, formData).then(
+    if (valid && bookInfo.picURL !== "") {
+      let formData = {
+        user_id: usesrInfo.username,
+        name: bookInfo.bookName,
+        price: parseFloat(bookInfo.bookPrice),
+        pic_url: bookInfo.picURL
+      }
+      const url = 'http://localhost:8081/book/add'
+      axios.post(url, formData, {params:{token: usesrInfo.token}}).then(
         function(response) {
-          if (response.data.message === "ok") {
+          if (response.data.code === 0) {
             alert("添加成功！")
-            console.log(response.data)
           } else {
             alert("添加失败！请检查输入")
           }
