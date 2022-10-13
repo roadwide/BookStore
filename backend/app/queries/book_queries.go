@@ -6,7 +6,7 @@ import (
 	"context"
 )
 
-func (db *Query) CrateBook(userID, bookName, picURL string, bookPrice float64) (*ent.Book, error) {
+func (db *Query) CreateBook(userID, bookName, picURL string, bookPrice float64) (*ent.Book, error) {
 	return db.Book.Create().
 		SetName(bookName).
 		SetUserID(userID).

@@ -54,7 +54,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!')
       let formData = {
         'username': ruleForm.username,
         'password': ruleForm.pass
@@ -62,7 +61,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
       const url = 'http://localhost:8081/user/login'
       axios.post(url, formData).then(
         function(response) {
-          console.log(response.data)
           if (response.data.code === 0) {
               alert("登录成功！跳转到个人主页")
               emit("changeLoginStatus", true)

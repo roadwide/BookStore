@@ -83,7 +83,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!')
       let formData = {
         'username': ruleForm.username,
         'password': ruleForm.pass,
@@ -100,7 +99,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
         }
       )
     } else {
-      console.log('error submit!')
       return false
     }
   })

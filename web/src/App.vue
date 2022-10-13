@@ -41,16 +41,11 @@ if (!isLogin.value) {
     const userInfo = JSON.parse(localStorage.getItem("userInfo")!)    // 非空断言，叹号
     let formData = new FormData()
     formData.append("token", userInfo.token)
-    console.log(formData)
     const url = 'http://localhost:8081/user/verify'
     axios.post(url, formData).then(
         function(response) {
-          
-          console.log(response)
           if (response.data.code === 0 && response.data.resp.user_id === userInfo.username) {
             username.value = userInfo.username
-          } else {
-            console.log(response.data)
           }
         }
     ).catch(
