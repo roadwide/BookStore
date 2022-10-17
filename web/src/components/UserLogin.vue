@@ -33,7 +33,7 @@ const emit = defineEmits(['changeLoginStatus', 'changeUserName'])
 const props = defineProps({isLogin: Boolean})
 const router = useRouter()
 if (props.isLogin) {
-  router.push("books")
+  router.push("all-books")
 }
 
 const ruleFormRef = ref<FormInstance>()
@@ -58,15 +58,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
         'username': ruleForm.username,
         'password': ruleForm.pass
       }
-      const url = 'http://localhost:8081/user/login'
-      axios.post(url, formData).then(
+      axios.post(process.env.VUE_APP_BASE_API+'/user/login', formData).then(
         function(response) {
           if (response.data.code === 0) {
               alert("登录成功！跳转到个人主页")
               emit("changeLoginStatus", true)
               emit("changeUserName", ruleForm.username)
               localStorage.setItem("userInfo", JSON.stringify(response.data.resp))
-              router.push("books")
+              router.push("all-books")
           } else {
             alert("登录失败！请检查输入")
           }

@@ -1,14 +1,9 @@
 <template>
-
   <UserUpload/> 
-  
 </template>
 
-<script>
+<script setup lang="ts">
 import UserUpload from '../components/UserUpload.vue'
-export default {
-    components :{UserUpload}
-}
 </script>
 
 <style>

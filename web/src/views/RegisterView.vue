@@ -2,12 +2,8 @@
   <UserRegister/>
 </template>
 
-<script>
+<script setup lang="ts">
 import UserRegister from '../components/UserRegister.vue'
-export default {
-    components :{UserRegister}
-
-}
 </script>
 
 <style>

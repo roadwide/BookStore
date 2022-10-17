@@ -88,8 +88,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         'password': ruleForm.pass,
         'email': ruleForm.email
       }
-      const url = 'http://localhost:8081/user/register'
-      axios.post(url, formData).then(
+      axios.post(process.env.VUE_APP_BASE_API+'/user/register', formData).then(
         function(response){
           console.log(response.data)
         }

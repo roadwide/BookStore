@@ -3,7 +3,8 @@ import IndexView from '../views/IndexView.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import UploadView from '../views/UploadView.vue'
-import BooksView from '../views/BooksView.vue'
+import AllBooksView from '../views/AllBooksView.vue'
+import MyBooksView from '../views/MyBooksView.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -27,9 +28,14 @@ const routes: Array<RouteRecordRaw> = [
     component: UploadView
   },
   {
-    path: '/books',
-    name: 'books',
-    component: BooksView
+    path: '/all-books',
+    name: 'all-books',
+    component: AllBooksView
+  },
+  {
+    path: '/my-books',
+    name: 'my-books',
+    component: MyBooksView
   }
 ]
 
@@ -41,7 +47,7 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
   let isAuthenticated = true
   let needLogin = false
-  if (to.name !== 'register' && to.name !== 'books') {
+  if (to.name !== 'register' && to.name !== 'all-books') {
     needLogin =true
   }
   if (localStorage.getItem("userInfo") === null) {
