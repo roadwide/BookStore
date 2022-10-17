@@ -14,7 +14,7 @@
       <el-upload
         ref="upload"
         class="upload-demo"
-        action="http://127.0.0.1:8081/book/upload"
+        :action="api_url"
         :limit="1"
         :on-exceed="handleExceed"
         :auto-upload="false"
@@ -59,6 +59,7 @@ import type { UploadInstance, UploadProps, UploadRawFile, FormInstance } from 'e
 import axios from 'axios'
 
 const upload = ref<UploadInstance>()
+const api_url = ref(process.env.VUE_APP_BASE_API+"/book/upload")
 const booInfoFormRef = ref<FormInstance>()
 const bookInfo = reactive({
   userID: '',
@@ -101,8 +102,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
         price: parseFloat(bookInfo.bookPrice),
         pic_url: bookInfo.picURL
       }
-      const url = 'http://localhost:8081/book/add'
-      axios.post(url, formData, {params:{token: usesrInfo.token}}).then(
+      axios.post(process.env.VUE_APP_BASE_API+'/book/add', formData, {params:{token: usesrInfo.token}}).then(
         function(response) {
           if (response.data.code === 0) {
             alert("添加成功！")

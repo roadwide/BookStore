@@ -2,7 +2,8 @@
 <div>
   <nav>
     <ul>
-      <li><router-link to="/books">Books</router-link></li>
+      <li><router-link to="/all-books">All Books</router-link></li>
+      <li v-show="isLogin"><router-link to="/my-books">My Books</router-link></li>
       <li v-show="isLogin"><router-link to="/upload">Upload</router-link></li>
       <!-- 下面两个float:right 根据代码的顺序 从右往左排列，也即最右边是register -->
       <li style="float:right" v-show="!isLogin"><router-link to="/register" class="active">Register</router-link></li>
@@ -15,6 +16,7 @@
   </nav>
     <router-view 
       :isLogin = "isLogin"
+      :userName = "username"
       @changeUserName = "changeUserName"
       @changeLoginStatus = "changeLoginStatus"
       style="margin: 50px auto;">
@@ -36,13 +38,12 @@ const router = useRouter()
 let username = ref("default username")
 if (!isLogin.value) {
   // TODO：这里应该判断当前页面是不是login，如果不是再跳转。虽然目前这样也没什么问题
-    router.push("books")
+    router.push("all-books")
 } else {
     const userInfo = JSON.parse(localStorage.getItem("userInfo")!)    // 非空断言，叹号
     let formData = new FormData()
     formData.append("token", userInfo.token)
-    const url = 'http://localhost:8081/user/verify'
-    axios.post(url, formData).then(
+    axios.post(process.env.VUE_APP_BASE_API+'/user/verify', formData).then(
         function(response) {
           if (response.data.code === 0 && response.data.resp.user_id === userInfo.username) {
             username.value = userInfo.username

@@ -11,6 +11,7 @@ go generate ./ent
 ```bash
 export SQLITE_FILE=data.s3db
 export JWT_SECRET_KEY=MxDNSc0AnSSoU7WUUWh9i
+go run main.go
 ```
 
 **Build and Serve**

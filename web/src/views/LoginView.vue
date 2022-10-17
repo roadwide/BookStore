@@ -18,12 +18,8 @@
   <UserLogin/> 
 </template>
 
-<script>
+<script setup lang="ts">
 import UserLogin from '../components/UserLogin.vue'
-export default {
-    components :{UserLogin}
-
-}
 </script>
 
 <style>

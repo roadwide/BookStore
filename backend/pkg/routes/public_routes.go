@@ -15,6 +15,6 @@ func PublicRoutes(a *echo.Echo) {
 
 	bookGroup := a.Group("/book")
 	bookGroup.POST("/add", controllers.AddBook)
-	bookGroup.GET("/info", controllers.GetBook)
+	bookGroup.POST("/info", controllers.GetBook)
 	bookGroup.POST("/upload", controllers.UploadIMG)
 }
