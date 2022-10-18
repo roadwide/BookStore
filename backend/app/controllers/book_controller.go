@@ -83,3 +83,21 @@ func UploadIMG(c echo.Context) error {
 	// PicURL首字母要大写，不然有问题。我记得好像是大写才是public。结构体名字没有首字母大写别的包无法调用
 	return c.JSON(http.StatusOK, utils.SuccessResponse(struct{ PicURL string }{urlPrefix + uuid + extstring}))
 }
+
+func DeleteBook(c echo.Context) error {
+	userID, err := Authorize(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, utils.FailResponse(err.Error(), nil))
+	}
+	req := &models.DeleteBookRequest{}
+	err = c.Bind(req)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, utils.FailResponse(err.Error(), nil))
+	}
+	ImgFileName, err := queries.DataBase.DeleteBook(req.BookID, userID)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, utils.FailResponse(err.Error(), nil))
+	}
+	os.Remove("img/" + ImgFileName)
+	return c.JSON(http.StatusOK, utils.SuccessResponse(struct{}{}))
+}
