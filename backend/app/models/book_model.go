@@ -10,3 +10,7 @@ type AddBookRequest struct {
 type GetBookRequest struct {
 	UserID string `json:"user_id"`
 }
+
+type DeleteBookRequest struct {
+	BookID int `json:"book_id"`
+}

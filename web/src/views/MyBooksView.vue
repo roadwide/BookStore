@@ -1,5 +1,8 @@
 <template>
-    <BookList :book-data="bookInfo"/>
+    <BookList 
+    :book-data="bookInfo"
+    :isMyBookList="true"
+    />
 </template>
   
   <script setup lang="ts">
