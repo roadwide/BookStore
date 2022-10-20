@@ -1,10 +1,10 @@
 package models
 
 type AddBookRequest struct {
-	UserID string  `json:"user_id"`
 	Name   string  `json:"name"`
 	Price  float64 `json:"price"`
 	PicURL string  `json:"pic_url"`
+	Token  string  `json:"token"`
 }
 
 type GetBookRequest struct {
@@ -12,5 +12,6 @@ type GetBookRequest struct {
 }
 
 type DeleteBookRequest struct {
-	BookID int `json:"book_id"`
+	BookID int    `json:"book_id"`
+	Token  string `json:"token"`
 }

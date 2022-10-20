@@ -5,8 +5,9 @@ import (
 	"backend/app/queries"
 	"backend/pkg/repository"
 	"backend/pkg/utils"
-	"github.com/labstack/echo/v4"
 	"net/http"
+
+	"github.com/labstack/echo/v4"
 )
 
 func Register(c echo.Context) error {
