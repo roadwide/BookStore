@@ -13,19 +13,16 @@ import (
 )
 
 func AddBook(c echo.Context) error {
-	userID, err := Authorize(c)
-	if err != nil {
-		return c.JSON(http.StatusUnauthorized, utils.FailResponse(err.Error(), nil))
-	}
 	req := &models.AddBookRequest{}
-	err = c.Bind(req)
+	err := c.Bind(req)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, utils.FailResponse(err.Error(), nil))
 	}
-	if req.UserID != userID {
+	userID, err := utils.Verify(req.Token)
+	if err != nil {
 		return c.JSON(http.StatusUnauthorized, utils.FailResponse("Illegal Access", nil))
 	}
-	book, err := queries.DataBase.CreateBook(req.UserID, req.Name, req.PicURL, req.Price)
+	book, err := queries.DataBase.CreateBook(userID, req.Name, req.PicURL, req.Price)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, utils.FailResponse(err.Error(), nil))
 	}
@@ -85,14 +82,14 @@ func UploadIMG(c echo.Context) error {
 }
 
 func DeleteBook(c echo.Context) error {
-	userID, err := Authorize(c)
-	if err != nil {
-		return c.JSON(http.StatusUnauthorized, utils.FailResponse(err.Error(), nil))
-	}
 	req := &models.DeleteBookRequest{}
-	err = c.Bind(req)
+	err := c.Bind(req)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, utils.FailResponse(err.Error(), nil))
+	}
+	userID, err := utils.Verify(req.Token)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, utils.FailResponse("Illegal Access", nil))
 	}
 	ImgFileName, err := queries.DataBase.DeleteBook(req.BookID, userID)
 	if err != nil {

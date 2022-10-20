@@ -25,35 +25,21 @@
 </template>
 
 <script setup lang="ts">
-import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 var isLogin = ref(false)
+let username = ref("default username")
 if (localStorage.getItem("userInfo") !== null) {
   isLogin.value = true
+  username.value = JSON.parse(localStorage.getItem("userInfo")!).username
 }
 const router = useRouter()
 
 
-let username = ref("default username")
+
 if (!isLogin.value) {
   // TODO：这里应该判断当前页面是不是login，如果不是再跳转。虽然目前这样也没什么问题
     router.push("all-books")
-} else {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo")!)    // 非空断言，叹号
-    let formData = new FormData()
-    formData.append("token", userInfo.token)
-    axios.post(process.env.VUE_APP_BASE_API+'/user/verify', formData).then(
-        function(response) {
-          if (response.data.code === 0 && response.data.resp.user_id === userInfo.username) {
-            username.value = userInfo.username
-          }
-        }
-    ).catch(
-        function(err) {
-            console.log(err.message)
-        }
-    )
 }
 
 function logout() {

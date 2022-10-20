@@ -62,7 +62,6 @@ const upload = ref<UploadInstance>()
 const api_url = ref(process.env.VUE_APP_BASE_API+"/book/upload")
 const booInfoFormRef = ref<FormInstance>()
 const bookInfo = reactive({
-  userID: '',
   bookName: '',
   bookPrice: '',
   picURL: ''
@@ -97,12 +96,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
     // 检查是否已经完成图片的上传
     if (valid && bookInfo.picURL !== "") {
       let formData = {
-        user_id: usesrInfo.username,
         name: bookInfo.bookName,
         price: parseFloat(bookInfo.bookPrice),
-        pic_url: bookInfo.picURL
+        pic_url: bookInfo.picURL,
+        token: usesrInfo.token
       }
-      axios.post(process.env.VUE_APP_BASE_API+'/book/add', formData, {params:{token: usesrInfo.token}}).then(
+      axios.post(process.env.VUE_APP_BASE_API+'/book/add', formData).then(
         function(response) {
           if (response.data.code === 0) {
             alert("添加成功！")

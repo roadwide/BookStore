@@ -17,9 +17,10 @@ const props = defineProps(['bookData', 'isMyBookList'])
 const userInfo = JSON.parse(localStorage.getItem("userInfo")!)
 function deleteBook(bookID:number, token:string) {
 	const formData = {
-		book_id:bookID
+		book_id: bookID,
+		token: token
 	}
-	axios.post(process.env.VUE_APP_BASE_API+'/book/delete', formData, {params:{token: token}}).then(
+	axios.post(process.env.VUE_APP_BASE_API+'/book/delete', formData).then(
         function(response) {
           if (response.data.code === 0) {
             alert("删除成功！")
