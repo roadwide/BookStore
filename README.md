@@ -1,14 +1,14 @@
 # BookStore
 ## login
-![login](./img/login.png)
+![login](./img/login.jpg)
 ## register
-![register](./img/register.png)
+![register](./img/register.jpg)
 ## allbooks
-![allbooks](./img/allbooks.png)
+![allbooks](./img/allbooks.jpg)
 ## mybooks
-![mybooks](./img/mybooks.png)
+![mybooks](./img/mybooks.jpg)
 ## upload
-![upload](./img/upload.png)
+![upload](./img/upload.jpg)
 
 ## Git Usage
 https://segmentfault.com/a/1190000019714354  
